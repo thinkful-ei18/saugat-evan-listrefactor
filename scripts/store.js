@@ -1,6 +1,6 @@
-/* global store, cuid */
+/* global store, cuid, Item, shoppingList */
 
-'use strict'
+'use strict';
 
 
 const store = (function () {
@@ -13,22 +13,37 @@ const store = (function () {
 
   const addItem = function (name) {
     try {
-      Item.validateName(name)
+      Item.validateName(name);
       this.items.push(Item.create(itemName));
     }
     catch (e) {
-      console.log('Could create item because of' + e)
+      console.log('Could create item because of' + e);
     }
+  };
+
+  const findAndUpdateName = function (id,newName) {
+    try { (Item.validateName(newName)); 
+    } catch(e) {
+      console.log('Cannot add item: ' + e);
+    } 
+    let foundItem = this.findById(id);
+    foundItem.name = newName;
   };
 
   const findAndToggleChecked = function (id) {
     console.log(this.items);
-    const foundItems = this.findById(id);
-    console.log(foundItems);
-    foundItems.checked = !foundItems.checked;
-    shoppingList.render();
+    const foundItem = this.findById(id);
+    // console.log(foundItem);
+    // foundItem.checked = !foundItem.checked;
+    // shoppingList.render();
   };
 
+  const findAndDelete = function (id) {
+    const foundItem = this.findById(id);
+    this.items = this.items.filter((item) => {
+      return item.id !== id;
+    });
+  };
 
   return {
     items: [
@@ -40,7 +55,9 @@ const store = (function () {
     hideCheckedItems: false,
     searchTerm: '',
     findById,
-    findAndToggleChecked
+    findAndToggleChecked,
+    findAndUpdateName,
+    findAndDelete
   };
 }());
 
