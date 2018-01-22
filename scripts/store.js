@@ -33,9 +33,9 @@ const store = (function () {
   const findAndToggleChecked = function (id) {
     console.log(this.items);
     const foundItem = this.findById(id);
-    // console.log(foundItem);
-    // foundItem.checked = !foundItem.checked;
-    // shoppingList.render();
+    console.log(foundItem);
+    foundItem.checked = !foundItem.checked;
+    shoppingList.render();
   };
 
   const findAndDelete = function (id) {
@@ -44,6 +44,15 @@ const store = (function () {
       return item.id !== id;
     });
   };
+
+  const toggleCheckedFilter = function (){
+    this.hideCheckedItems = !this.hideCheckedItems;
+  };
+
+  const setSearchTerm = function (val){
+    this.searchTerm = val;
+  }
+ 
 
   return {
     items: [
@@ -57,7 +66,8 @@ const store = (function () {
     findById,
     findAndToggleChecked,
     findAndUpdateName,
-    findAndDelete
+    findAndDelete,
+    toggleCheckedFilter
   };
 }());
 
